@@ -17,7 +17,13 @@ namespace LinqDemo.Core {
 		/// </summary>
 		/// <returns>The max element.</returns>
 		public int[] GetMaxElement() {
-			return new int[]{ this.Data.Max() };
+			var toret = new int[ 0 ];
+
+			if ( this.Data.Length > 0 ) {
+				toret = new int[]{ this.Data.Max() };
+			}
+
+			return toret;
 		}
 
 		/// <summary>

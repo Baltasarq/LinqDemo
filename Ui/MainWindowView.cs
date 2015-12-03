@@ -5,6 +5,9 @@ using System.Windows.Forms;
 
 namespace LinqDemo.Ui {
 	public partial class MainWindow: Form {
+		public const string BaseClsNameArrayLinq = "DemoLinqArray";
+		public const string BaseClsNameXmlLinq = "DemoLinqXml";
+
 		public MainWindow()
 		{
 			this.Build();
@@ -23,28 +26,11 @@ namespace LinqDemo.Ui {
 					where ( t.IsClass
 						 && t.BaseType.Name == baseClsName )
 					orderby t.Name
-					select t.Name ).ToArray()
+					select t.Name.Substring( baseClsName.Length ) ).ToArray()
 			);
 
 			toret.SelectedIndex = 0;
 			return toret;
-		}
-
-		private void BuildListBoxLinqXmlDemos() {
-			this.lbDemoXml = new ListBox() {
-				Dock = DockStyle.Top,
-				SelectionMode = SelectionMode.One
-			};
-
-			// Get all classes derived from DemoLinqArray
-			this.lbDemoXml.Items.AddRange(
-				( from t in this.GetType().Assembly.GetTypes()
-					where ( t.IsClass
-						&& t.BaseType.Name == "DemoLinqXml" )
-					orderby t.Name
-					select t.Name ).ToArray()
-			);
-			this.lbDemoXml.SelectedIndex = 0;
 		}
 
 		private void Build() {
@@ -67,13 +53,17 @@ namespace LinqDemo.Ui {
 				Dock = DockStyle.Top,
 				Text = "Execute Linq for Arrays demo"
 			};
-			this.btDemoArray.Click += (sender, e) => this.OnDemoLinq( (string) this.lbDemoArray.SelectedItem );
+			this.btDemoArray.Click += (sender, e) =>
+				this.OnDemoLinq(
+					BaseClsNameArrayLinq + (string) this.lbDemoArray.SelectedItem );
 
 			this.btDemoXml = new Button() {
 				Dock = DockStyle.Top,
 				Text = "Execute Linq for Xml demo"
 			};
-			this.btDemoXml.Click += (sender, e) => this.OnDemoLinq( (string) this.lbDemoXml.SelectedItem );
+			this.btDemoXml.Click += (sender, e) =>
+				this.OnDemoLinq(
+					BaseClsNameXmlLinq + (string) this.lbDemoXml.SelectedItem );
 
 			this.btGenerate = new Button() {
 				Dock = DockStyle.Top,
@@ -88,8 +78,8 @@ namespace LinqDemo.Ui {
 				Text = "Write integer numbers separated by commas below and press a button."
 			};
 
-			this.lbDemoArray = this.BuildListBoxWithClassesDerivedFrom( "DemoLinqArray" );
-			this.lbDemoXml = this.BuildListBoxWithClassesDerivedFrom( "DemoLinqXml" );
+			this.lbDemoArray = this.BuildListBoxWithClassesDerivedFrom( BaseClsNameArrayLinq );
+			this.lbDemoXml = this.BuildListBoxWithClassesDerivedFrom( BaseClsNameXmlLinq );
 			pnlButtons.Controls.Add( this.lbDemoArray );
 			pnlButtons.Controls.Add( this.btDemoArray );
 			pnlButtons.Controls.Add( this.lbDemoXml );

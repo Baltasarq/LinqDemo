@@ -6,6 +6,9 @@ using System.Xml.Linq;
 
 namespace LinqDemo.Core {
 	public class DemoLinqXml: Demo {
+		public const string RootTag = "Data";
+		public const string DataTag = "DataItem";
+
 		public DemoLinqXml(int[] data)
 			: base( data )
 		{
@@ -16,11 +19,11 @@ namespace LinqDemo.Core {
 			var toret = new StringWriter();
 			var xmlWriter = new XmlTextWriter( toret );
 
-			xmlDoc.Add( new XElement( "Data" ) );
+			xmlDoc.Add( new XElement( RootTag ) );
 
 			foreach (var x in data) {
 				xmlDoc.Root.Add(
-					new XElement( "DataItem", x.ToString() ) );
+					new XElement( DataTag, x.ToString() ) );
 			}
 
 			xmlWriter.Formatting = Formatting.Indented;

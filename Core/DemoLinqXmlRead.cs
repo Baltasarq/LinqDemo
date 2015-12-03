@@ -17,7 +17,7 @@ namespace LinqDemo.Core {
 
 			// Select those nodes that hold even int values
 			try {
-				toret = ( from node in doc.Root.Elements( "DataItem" )
+				toret = ( from node in doc.Root.Elements( DataTag )
 					where Convert.ToInt32( ( (XElement) node ).Value ) % 2 == 0
 					select Convert.ToInt32( ( (XElement) node ).Value ) ).ToArray();
 			} catch(FormatException) {
