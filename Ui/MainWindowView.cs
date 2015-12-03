@@ -35,6 +35,11 @@ namespace LinqDemo.Ui {
 			this.btDemoArray2.Text = "Linq for arrays (primes)";
 			this.btDemoArray2.Click += (sender, e) => this.OnDemoLinqArrayPrimes();
 
+			this.btDemoArrayParanoia = new Button();
+			this.btDemoArrayParanoia.Dock = DockStyle.Top;
+			this.btDemoArrayParanoia.Text = "Linq for array (Guess what it does XD)";
+			this.btDemoArrayParanoia.Click += (sender, e) => this.OnDemoLinqArrayParanoia();
+
 			this.btDemoArray3 = new Button();
 			this.btDemoArray3.Dock = DockStyle.Top;
 			this.btDemoArray3.Text = "Linq to XML";
@@ -55,6 +60,7 @@ namespace LinqDemo.Ui {
 			pnlButtons.Controls.Add( this.btDemoArray1 );
 			pnlButtons.Controls.Add( this.btDemoArray2 );
 			pnlButtons.Controls.Add( this.btDemoArray3 );
+			pnlButtons.Controls.Add( this.btDemoArrayParanoia );
 			pnlButtons.Controls.Add( lblExplanation );
 			pnlButtons.Controls.Add( this.btGenerate );
 			pnlMain.Controls.Add( this.txtOutput );
@@ -72,6 +78,7 @@ namespace LinqDemo.Ui {
 		private Button btDemoArray1;
 		private Button btDemoArray2;
 		private Button btDemoArray3;
+		private Button btDemoArrayParanoia;
 		private Button btGenerate;
 		private TextBox edInput;
 	}
