@@ -57,6 +57,7 @@
     <Compile Include="Core\DemoLinqXmlWrite.cs" />
     <Compile Include="Core\DemoLinqArraySum.cs" />
     <Compile Include="Core\DemoLinqArrayAverage.cs" />
+    <Compile Include="Core\DemoLinqXmlRead.cs" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

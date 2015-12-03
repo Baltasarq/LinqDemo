@@ -71,7 +71,7 @@ namespace LinqDemo.Ui {
 
 			this.btDemoXml = new Button() {
 				Dock = DockStyle.Top,
-				Text = "Execute Linq for Arrays demo"
+				Text = "Execute Linq for Xml demo"
 			};
 			this.btDemoXml.Click += (sender, e) => this.OnDemoLinq( (string) this.lbDemoXml.SelectedItem );
 
