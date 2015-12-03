@@ -32,7 +32,6 @@ namespace LinqDemo.Ui {
 		/// <param name="msg">A message to show, as a string.</param>
 		private void ShowOutput(string msg)
 		{
-			this.edInput.Text = "";
 			this.txtOutput.Text += msg + System.Environment.NewLine + System.Environment.NewLine;
 			this.txtOutput.SelectionStart = this.txtOutput.Text.Length;
 			this.txtOutput.ScrollToCaret();
@@ -48,20 +47,26 @@ namespace LinqDemo.Ui {
 			return ( Demo.ToString( this.GetInput() ) + System.Environment.NewLine + "->" + result );
 		}
 
-		private void OnDemoLinqArrayEvens() {
-			this.ShowOutput( this.PrepareOutput( new DemoLinqArrayEvens( this.GetInput() ).ToString() ) );
-		}
+		private void OnDemoLinq(String clsName) {
+			bool done = false;
 
-		private void OnDemoLinqArrayPrimes() {
-			this.ShowOutput( this.PrepareOutput( new DemoLinqArrayPrimes( this.GetInput() ).ToString() ) );
-		}
+			if ( clsName.Length > 0 ) {
+				// Locate the class
+				Type cls = this.GetType().Assembly.GetType( "LinqDemo.Core." + clsName );
 
-		private void OnDemoLinqArrayParanoia() {
-			this.ShowOutput( this.PrepareOutput( new DemoLinqArrayParanoia( this.GetInput() ).ToString() ) );
-		}
+				if ( cls != null ) {
+					// Create an instance of the class derived from DemoLinqArray.
+					var demoObj = Activator.CreateInstance( cls, new object[]{ this.GetInput() } );
 
-		private void OnDemoLinqToXml() {
-			this.ShowOutput( this.PrepareOutput( new DemoLinqXml( this.GetInput() ).ToString() ) );
+					// We're only interested in the "ToString()" method.
+					this.ShowOutput( this.PrepareOutput( demoObj.ToString() ) );
+					done = true;
+				}
+			}
+
+			if ( !done ) {
+				this.ShowOutput( string.Format( "The '{0}' class was not found or impossible to build", clsName ) );
+			}
 		}
 
 		private void OnGenerate(int max) {

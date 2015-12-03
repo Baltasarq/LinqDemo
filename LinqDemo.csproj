@@ -50,6 +50,13 @@
     <Compile Include="Core\DemoLinqArrayPrimes.cs" />
     <Compile Include="Core\DemoLinqArrayEvens.cs" />
     <Compile Include="Core\DemoLinqXml.cs" />
+    <Compile Include="Core\DemoLinqArrayParanoia.cs" />
+    <Compile Include="Core\DemoLinqArrayDivisors.cs" />
+    <Compile Include="Core\DemoLinqArrayMaxElement.cs" />
+    <Compile Include="Core\DemoLinqArray.cs" />
+    <Compile Include="Core\DemoLinqXmlWrite.cs" />
+    <Compile Include="Core\DemoLinqArraySum.cs" />
+    <Compile Include="Core\DemoLinqArrayAverage.cs" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

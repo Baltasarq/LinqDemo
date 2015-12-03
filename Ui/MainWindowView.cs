@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Linq;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace LinqDemo.Ui {
@@ -9,58 +11,89 @@ namespace LinqDemo.Ui {
 			this.edInput.Focus();
 		}
 
+		private ListBox BuildListBoxWithClassesDerivedFrom(string baseClsName) {
+			var toret = new ListBox() {
+				Dock = DockStyle.Top,
+				SelectionMode = SelectionMode.One
+			};
+
+			// Get all classes derived from DemoLinqArray
+			toret.Items.AddRange(
+				( from t in this.GetType().Assembly.GetTypes()
+					where ( t.IsClass
+						 && t.BaseType.Name == baseClsName )
+					orderby t.Name
+					select t.Name ).ToArray()
+			);
+
+			toret.SelectedIndex = 0;
+			return toret;
+		}
+
+		private void BuildListBoxLinqXmlDemos() {
+			this.lbDemoXml = new ListBox() {
+				Dock = DockStyle.Top,
+				SelectionMode = SelectionMode.One
+			};
+
+			// Get all classes derived from DemoLinqArray
+			this.lbDemoXml.Items.AddRange(
+				( from t in this.GetType().Assembly.GetTypes()
+					where ( t.IsClass
+						&& t.BaseType.Name == "DemoLinqXml" )
+					orderby t.Name
+					select t.Name ).ToArray()
+			);
+			this.lbDemoXml.SelectedIndex = 0;
+		}
+
 		private void Build() {
-			var pnlMain = new Panel();
+			var pnlMain = new Panel() { Dock = DockStyle.Fill };
 			pnlMain.SuspendLayout();
-			pnlMain.Dock = DockStyle.Fill;
 
-			var pnlButtons = new TableLayoutPanel();
-			pnlButtons.Dock = DockStyle.Right;
+			var pnlButtons = new TableLayoutPanel() { Dock = DockStyle.Right };
 
-			this.txtOutput = new TextBox();
-			this.txtOutput.Multiline = true;
-			this.txtOutput.ReadOnly = true;
-			this.txtOutput.Dock = DockStyle.Fill;
-			this.txtOutput.Text = "Results:" + System.Environment.NewLine + System.Environment.NewLine;
+			this.txtOutput = new TextBox() {
+				Multiline = true,
+				ReadOnly = true,
+				ScrollBars = ScrollBars.Vertical,
+				Dock = DockStyle.Fill,
+				Text = "Results:" + Environment.NewLine + Environment.NewLine,
+			};
 			this.txtOutput.SelectionStart = this.txtOutput.Text.Length;
-			this.txtOutput.ScrollBars = ScrollBars.Vertical;
+			this.txtOutput.SelectionLength = 0;
 
-			this.btDemoArray1 = new Button();
-			this.btDemoArray1.Dock = DockStyle.Top;
-			this.btDemoArray1.Text = "Linq for arrays (even)";
-			this.btDemoArray1.Click += (sender, e) => this.OnDemoLinqArrayEvens();
+			this.btDemoArray = new Button() {
+				Dock = DockStyle.Top,
+				Text = "Execute Linq for Arrays demo"
+			};
+			this.btDemoArray.Click += (sender, e) => this.OnDemoLinq( (string) this.lbDemoArray.SelectedItem );
 
-			this.btDemoArray2 = new Button();
-			this.btDemoArray2.Dock = DockStyle.Top;
-			this.btDemoArray2.Text = "Linq for arrays (primes)";
-			this.btDemoArray2.Click += (sender, e) => this.OnDemoLinqArrayPrimes();
+			this.btDemoXml = new Button() {
+				Dock = DockStyle.Top,
+				Text = "Execute Linq for Arrays demo"
+			};
+			this.btDemoXml.Click += (sender, e) => this.OnDemoLinq( (string) this.lbDemoXml.SelectedItem );
 
-			this.btDemoArrayParanoia = new Button();
-			this.btDemoArrayParanoia.Dock = DockStyle.Top;
-			this.btDemoArrayParanoia.Text = "Linq for array (Guess what it does XD)";
-			this.btDemoArrayParanoia.Click += (sender, e) => this.OnDemoLinqArrayParanoia();
-
-			this.btDemoArray3 = new Button();
-			this.btDemoArray3.Dock = DockStyle.Top;
-			this.btDemoArray3.Text = "Linq to XML";
-			this.btDemoArray3.Click += (sender, e) => this.OnDemoLinqToXml();
-
-			this.btGenerate = new Button();
-			this.btGenerate.Dock = DockStyle.Top;
-			this.btGenerate.Text = "Generate random input data";
+			this.btGenerate = new Button() {
+				Dock = DockStyle.Top,
+				Text = "Generate random input data"
+			};
 			this.btGenerate.Click += (sender, e) => this.OnGenerate( 10 );
 
-			this.edInput = new TextBox();
-			this.edInput.Dock = DockStyle.Bottom;
+			this.edInput = new TextBox() { Dock = DockStyle.Bottom };
 
-			var lblExplanation = new Label();
-			lblExplanation.Dock = DockStyle.Fill;
-			lblExplanation.Text = "Write integer numbers separated by commas below and press a button.";
+			var lblExplanation = new Label() {
+				Dock = DockStyle.Fill,
+				Text = "Write integer numbers separated by commas below and press a button."
+			};
 
-			pnlButtons.Controls.Add( this.btDemoArray1 );
-			pnlButtons.Controls.Add( this.btDemoArray2 );
-			pnlButtons.Controls.Add( this.btDemoArray3 );
-			pnlButtons.Controls.Add( this.btDemoArrayParanoia );
+			this.lbDemoArray = this.BuildListBoxWithClassesDerivedFrom( "DemoLinqArray" );
+			this.lbDemoXml = this.BuildListBoxWithClassesDerivedFrom( "DemoLinqXml" );
+			pnlButtons.Controls.Add( this.lbDemoArray );
+			pnlButtons.Controls.Add( this.btDemoArray );
+			pnlButtons.Controls.Add( this.lbDemoXml );
+			pnlButtons.Controls.Add( this.btDemoXml );
 			pnlButtons.Controls.Add( lblExplanation );
 			pnlButtons.Controls.Add( this.btGenerate );
 			pnlMain.Controls.Add( this.txtOutput );
@@ -75,10 +108,10 @@ namespace LinqDemo.Ui {
 		}
 
 		private TextBox txtOutput;
-		private Button btDemoArray1;
-		private Button btDemoArray2;
-		private Button btDemoArray3;
-		private Button btDemoArrayParanoia;
+		private Button btDemoArray;
+		private ListBox lbDemoArray;
+		private Button btDemoXml;
+		private ListBox lbDemoXml;
 		private Button btGenerate;
 		private TextBox edInput;
 	}

@@ -7,7 +7,7 @@ namespace LinqDemo.Core {
 	 *  https://code.msdn.microsoft.com/101-LINQ-Samples-3fb9811b/viewsamplepack
 	 */
 
-	public class DemoLinqArrayPrimes: Demo {
+	public class DemoLinqArrayPrimes: DemoLinqArray {
 		/// <summary>
 		/// Initializes a new instance of the <see cref="LinqDemo.Core.DemoLinqArray"/> class.
 		/// </summary>
