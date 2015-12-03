@@ -56,6 +56,10 @@ namespace LinqDemo.Ui {
 			this.ShowOutput( this.PrepareOutput( new DemoLinqArrayPrimes( this.GetInput() ).ToString() ) );
 		}
 
+		private void OnDemoLinqArrayParanoia() {
+			this.ShowOutput( this.PrepareOutput( new DemoLinqArrayParanoia( this.GetInput() ).ToString() ) );
+		}
+
 		private void OnDemoLinqToXml() {
 			this.ShowOutput( this.PrepareOutput( new DemoLinqXml( this.GetInput() ).ToString() ) );
 		}
